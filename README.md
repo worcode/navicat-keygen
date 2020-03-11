@@ -1,5 +1,9 @@
 # Navicat Keygen
 
+---
+
+[looking update](https://github.com/kervin521/navicat-keygen/issues)
+
 [中文版README](README.zh-CN.md)
 
 This repository will tell you how Navicat offline activation works.
