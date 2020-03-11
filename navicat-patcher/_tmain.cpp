@@ -10,6 +10,9 @@
 #include "PatchSolutions.hpp"
 #include "Misc.hpp"
 
+#pragma comment(lib, "Crypt32")
+#pragma comment(lib, "ws2_32.lib")
+
 #undef NKG_CURRENT_SOURCE_FILE
 #undef NKG_CURRENT_SOURCE_LINE
 #define NKG_CURRENT_SOURCE_FILE() TEXT(".\\navicat-patcher\\_tmain.cpp")

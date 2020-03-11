@@ -1,4 +1,5 @@
 #pragma once
+#include <openssl/opensslv.h>
 #include <openssl/err.h>
 #include <openssl/pem.h>
 #include <openssl/bio.h>
@@ -103,11 +104,18 @@ namespace nkg {
 
         [[nodiscard]]
         size_t Bits() const {
+#if OPENSSL_VERSION_NUMBER < 0x10100000L
+            /* OpenSSL 1.0.2 and below */
             if (Get()->n == nullptr) {
                 throw Exception(NKG_CURRENT_SOURCE_FILE(), NKG_CURRENT_SOURCE_LINE(), TEXT("RSA modulus has not been set."));
-            } else {
+            }
+            else {
                 return BN_num_bits(Get()->n);
             }
+#else
+            /* OpenSSL 1.1.0 and above */
+            return RSA_bits(Get());
+#endif         
         }
 
         void GenerateKey(int bits, unsigned int e = RSA_F4) {
@@ -201,7 +209,8 @@ namespace nkg {
                 if (BytesWritten == -1) {
                     throw OpensslError(NKG_CURRENT_SOURCE_FILE(), NKG_CURRENT_SOURCE_LINE(), ERR_get_error(), TEXT("RSA_private_encrypt failed."));
                 }
-            } else {
+            }
+            else {
                 BytesWritten = RSA_public_encrypt(
                     static_cast<int>(cbFrom),
                     reinterpret_cast<const unsigned char*>(lpFrom),
@@ -239,7 +248,8 @@ namespace nkg {
                     throw OpensslError(NKG_CURRENT_SOURCE_FILE(), NKG_CURRENT_SOURCE_LINE(), ERR_get_error(), TEXT("RSA_private_decrypt failed."))
                         .AddHint(TEXT("Are your sure you DO provide a correct private key?"));
                 }
-            } else {
+            }
+            else {
                 BytesWritten = RSA_public_decrypt(
                     static_cast<int>(cbFrom),
                     reinterpret_cast<const unsigned char*>(lpFrom),

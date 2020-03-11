@@ -6,6 +6,8 @@
 #include <RSACipher.hpp>
 #include "SerialNumberGenerator.hpp"
 
+#pragma comment(lib, "ws2_32.lib")
+
 #undef NKG_CURRENT_SOURCE_FILE
 #undef NKG_CURRENT_SOURCE_LINE
 #define NKG_CURRENT_SOURCE_FILE() TEXT(".\\navicat-keygen\\_tmain.cpp")
